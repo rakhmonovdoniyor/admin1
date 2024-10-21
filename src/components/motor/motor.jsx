@@ -56,6 +56,7 @@ export default function MotorCom() {
   const fetchData = async () => {
     try {
       const response = await fetch(BaseURL, {
+        // method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,8 +66,8 @@ export default function MotorCom() {
           `Failed to fetch motor data. Status: ${response.status}`
         );
       }
-      const motor = await response.json();
-      setDataList(motor);
+      const data = await response.json();
+      setDataList(data);
       // setFilteredData(motor);
       console.log(motor);
     } catch (error) {
@@ -100,7 +101,7 @@ export default function MotorCom() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer ",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name,
@@ -116,14 +117,9 @@ export default function MotorCom() {
         });
 
         const motor = await response.json();
-        console.log(motor);
-        if (response.ok) {
-          setMessage(`Data add succes: ${motor}`);
-          // localStorage.setItem("token", data.acces_token);
-        }
+        console.log(motor, "Line-124: motor.jsx ", response.json);
 
-        console.log("Line-124: motor.jsx ", response.data);
-
+        console.log("Line-124: motor.jsx ", response.json);
         fetchData();
         setName("");
         setBrand("");
@@ -137,7 +133,6 @@ export default function MotorCom() {
         setMotors();
         setOpen(false);
         // handleAddData(dataList.NewData);
-
         setOpen1(false);
       } catch (error) {
         console.error("Line-140: motor.jsx < failure not succes", error);
