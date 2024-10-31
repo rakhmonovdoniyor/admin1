@@ -34,10 +34,11 @@ export default function MotorCom() {
   const [license, setLicense] = useState("");
   const [location, setLocation] = useState("");
   const [people, setPeople] = useState("");
-  const [type, setType] = useState("");
+  const [rate, setRate] = useState("");
   const [date, setDate] = useState("");
-
-  // const [filteredData, setFilteredData] = useState(data);
+  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [filteredData, setFilteredData] = useState();
 
   const [newName, setNewName] = useState();
   const [newBrand, setNewBrand] = useState();
@@ -45,7 +46,7 @@ export default function MotorCom() {
   const [newLicense, setNewLicense] = useState();
   const [newPeople, setNewPeople] = useState();
   const [newCost, setNewCost] = useState();
-  const [newType, setNewType] = useState();
+  const [newRate, setnewRate] = useState();
   const [newDate, setNewDate] = useState();
   const [newLocation, setNewLocation] = useState();
   const [deleteItem, setDeleteItem] = useState(null);
@@ -68,7 +69,7 @@ export default function MotorCom() {
       }
       const data = await response.json();
       setDataList(data);
-      // setFilteredData(motor);
+      setFilteredData(motor);
       console.log(motor);
     } catch (error) {
       console.error(
@@ -81,13 +82,7 @@ export default function MotorCom() {
     fetchData();
   }, [token]);
 
-  // if (token) {
-  //   fetchData();
-  // } else {
-  //   console.warn(
-  //     "Line-83: motor.jsx  No token found in localStorage. Cannot fetch motor data."
-  //   );
-  // }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,6 +98,7 @@ export default function MotorCom() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          
           body: JSON.stringify({
             name,
             brand,
@@ -111,22 +107,26 @@ export default function MotorCom() {
             license,
             location,
             people,
-            type,
+            rate,
             date,
+            
           }),
         });
-
+        
         const motor = await response.json();
         console.log(motor, "Line-124: motor.jsx ", response.json);
 
         console.log("Line-124: motor.jsx ", response.json);
+        if (file) {
+          motor.append("image", file);
+        }
         fetchData();
         setName("");
         setBrand("");
         setCompany("");
         setLocation("");
         setCost("");
-        setType("");
+        setRate("");
         setDate("");
         setPeople("");
         setLicense("");
@@ -139,6 +139,8 @@ export default function MotorCom() {
       }
     }
   };
+
+  
 
   const handleEdit = async (id) => {
     try {
@@ -156,7 +158,7 @@ export default function MotorCom() {
           newLicense,
           newLocation,
           newPeople,
-          newType,
+          newRate,
           newDate,
         }),
       });
@@ -169,7 +171,7 @@ export default function MotorCom() {
       setNewLicense("");
       setNewLocation("");
       setNewPeople("");
-      setNewType("");
+      setnewRate("");
       setNewDate("");
       setMotors();
 
@@ -191,7 +193,7 @@ export default function MotorCom() {
     setNewCompany(currentData.company);
     setNewLocation(currentData.location);
     setNewCost(currentData.cost);
-    setNewType(currentData.type);
+    setnewRate(currentData.rate);
     setNewDate(currentData.date);
     setNewPeople(currentData.people);
     // setOpen(false);
@@ -211,23 +213,23 @@ export default function MotorCom() {
   };
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
-    console.log("brand is clicked");
+    console.log("location is clicked");
   };
   const handleCostChange = (e) => {
     setCost(e.target.value);
-    console.log("name is clicked");
+    console.log("cost is clicked");
   };
   const handleTypeChange = (e) => {
-    setType(e.target.value);
-    console.log("brand is clicked");
+    setRate(e.target.value);
+    console.log("rate is clicked");
   };
   const handleDateChange = (e) => {
     setDate(e.target.value);
-    console.log("name is clicked");
+    console.log("date is clicked");
   };
   const handlePeopleChange = (e) => {
     setPeople(e.target.value);
-    console.log("brand is clicked");
+    console.log("people is clicked");
   };
 
   const DeleteMotor = async (id) => {
@@ -253,6 +255,31 @@ export default function MotorCom() {
   const handleAddData = (NewData) => {
     setDataList([...dataList, NewData]);
   };
+// Rasm yuklash
+ 
+
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append('image', file);
+
+  //   try {
+  //     const res = await axios.post('/upload', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     setImageUrl(res.data.filePath);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+
   // useEffect(() => {
   //   fetchData();
   // }, []);
@@ -313,7 +340,7 @@ export default function MotorCom() {
 
                 <th style={{ width: 100 }}>Location</th>
                 <th style={{ width: 100 }}>Cost</th>
-                <th style={{ width: 100 }}>Type</th>
+                <th style={{ width: 100 }}>Rate</th>
                 <th style={{ width: 50 }}>Date</th>
                 <th style={{ width: 50 }}>People</th>
                 <th style={{ width: 80 }}>Buttons</th>
@@ -324,13 +351,13 @@ export default function MotorCom() {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td> </td>
+                    <td>{imageUrl && <img src={imageUrl} alt="Uploaded" />} </td>
                     <td>{value.name || ""}</td>
                     <td>{value.brand || ""}</td>
                     <td>{value.company || ""}</td>
                     <td>{value.location || ""}</td>
                     <td>{value.cost || ""}</td>
-                    <td>{value.type || ""}</td>
+                    <td>{value.rate || ""}</td>
                     <td>{value.date || ""}</td>
                     <td>{value.people || ""}</td>
                     <td style={{ display: "flex", gap: "7px" }}>
@@ -401,9 +428,9 @@ export default function MotorCom() {
             <FormControl>
               <FormLabel>Type</FormLabel>
               <Input
-                type="text"
-                value={newType}
-                onChange={(e) => setNewType(e.target.value)}
+                type="number"
+                value={newRate}
+                onChange={(e) => setnewRate(e.target.value)}
               />
             </FormControl>
             <FormControl>
@@ -435,7 +462,7 @@ export default function MotorCom() {
           company={company}
           location={location}
           cost={cost}
-          type={type}
+          rate={rate}
           people={people}
           date={date}
           handleSubmit={handleSubmit}
@@ -452,9 +479,10 @@ export default function MotorCom() {
           setNewName={setNewName}
           setNewCompany={setNewCompany}
           setNewCost={setNewCost}
-          setNewType={setNewType}
+          setnewRate={setnewRate}
           setNewDate={setNewDate}
           setNewPeople={setNewPeople}
+          onFileChange={onFileChange}
         />
       </Box>
     </MotoTable>

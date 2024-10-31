@@ -26,7 +26,7 @@ export default function Addmodal({
   onCompany,
   onLocation,
   onCost,
-  onType,
+  onRate,
   onPeople,
   onDate,
   brand,
@@ -34,32 +34,15 @@ export default function Addmodal({
   company,
   location,
   people,
-  type,
+  rate,
   date,
+  onFileChange
 }) {
   const token = localStorage.getItem("token");
   console.log("Line-41 addmodal.jsx", token);
 
-  /////////  Data ///////////
-  // const [name, setName] = React.useState("");
-  // const [cost, setCost] = React.useState("");
-  // const [type, setType] = React.useState("");
-  // const [people, setPeople] = React.useState("");
-  // const [date, setDate] = React.useState("");
-  // const [company, setCompany] = React.useState("");
-  // const [location, setLocation] = React.useState("");
-  // const [rate, setRate] = React.useState("");
+   
 
-  // const handleDemoData = () => {
-  //   setName(`Caravan ${Math.floor(Math.random() * 50)}`);
-  //   setCost(`${Math.floor(Math.random() * 10000)}`);
-  //   setType("Family Camp");
-  //   setPeople("5");
-  //   setDate("01112003");
-  //   setCompany("Camping-Car");
-  //   setLocation("Seoul");
-  //   setRate("5.6");
-  // };
 
   return (
     <React.Fragment>
@@ -74,8 +57,16 @@ export default function Addmodal({
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalDialog>
           <div>{/* <button onClick={handleDemoData}>Demo</button> */}</div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} action="/upload" method="post" enctype="multipart/form-data">
             <Stack spacing={1}>
+            <FormControl>
+                <FormLabel>Image</FormLabel>
+                <Input
+                  type="file"
+                  name="file"
+                  onChange={onFileChange}
+                />
+              </FormControl>
               <FormControl>
                 <FormLabel>Name</FormLabel>
                 <Input
@@ -123,12 +114,12 @@ export default function Addmodal({
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Type</FormLabel>
+                <FormLabel>Rate</FormLabel>
                 <Input
-                  type="text"
-                  placeholder="Type"
-                  value={type}
-                  onChange={onType}
+                type="number"
+                  placeholder="Rate"
+                  value={rate}
+                  onChange={onRate}
                 />
               </FormControl>
               <FormControl>

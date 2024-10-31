@@ -35,9 +35,9 @@
   placeholder="Cost"
 />
 <Input
-  type="text"
-  name="type"
-  value={data.type}
+  type="number"
+  name="rate"
+  value={data.rate}
   onChange={handleChange}
   placeholder="Type"
 />

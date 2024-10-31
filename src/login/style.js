@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import img from "../assets/log/image.png"
 
 export const Container = styled.div`
   display: flex;
@@ -7,6 +8,8 @@ export const Container = styled.div`
   flex-direction: column;
   height: 100vh;
   background-color: #f7f9fc;
+  background-image: url(${img});
+  background-position:center;
   
 `;
 
@@ -16,9 +19,10 @@ export const Form = styled.form`
   padding: 40px;
   gap: 20px;
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   width: 350px;
+  background-color:transparent;
 `;
 
 export const Title = styled.h2`
@@ -37,7 +41,7 @@ export const Input = styled.input`
 
   &:focus {
     border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 10px rgba(1, 123, 255, 2.9);
   }
 `;
 
@@ -59,6 +63,14 @@ export const Button = styled.button`
 export const Welcome = styled.div`
  display: flex;
  gap: 30px;
+ h1{
+  color: var(--blue, #006DAB);
+font-family: Montserrat;
+font-size: 38px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+ }
 `;
 export const DemoAc = styled.div`
  display: flex;
@@ -66,8 +78,20 @@ export const DemoAc = styled.div`
  flex-direction: column;
  align-items: center; gap: 10px;
  h3{
-  display: flex;
-  gap: 10px;
+  color: var(--blue, #006DAB);
+font-family: Montserrat;
+font-size: 22px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+ }
+ h5{
+  color: var(--blue, #006DAB);
+font-family: Montserrat;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
  }
 `;
 export const ErrorMestrsage = styled.div`

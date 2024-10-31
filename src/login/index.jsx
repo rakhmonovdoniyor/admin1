@@ -12,6 +12,9 @@ import {
   DemoAc,
 } from "./style";
 import { Link, useNavigate } from "react-router-dom";
+import IconButton from '@mui/material/IconButton';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+ 
 
 const LoginPage = () => {
   const [name, setName] = useState("");
@@ -52,19 +55,31 @@ const LoginPage = () => {
     }
   };
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    // alert(`Copied to clipboard: ${text}`);
+  };
+  
+
   return (
     <Container>
       <Welcome>
         <div>
           <h1>Welcome to Camping Car websites admin dashboard</h1>
           <DemoAc>
-            Demo account:
-            <h3>
-              <p>email:</p> test@gmail.com
-            </h3>
-            <h3>
-              <p>password:</p> test
-            </h3>
+          <h5>Demo account:</h5>   
+            <div style={{display:"flex", alignItems:"center",gap:"6px"}}>
+              <h4>email:</h4> <h3 onClick={() => copyToClipboard('test@gmail.com')}> test@gmail.com</h3> 
+              <IconButton onClick={() => copyToClipboard('test@gmail.com')}>
+          <ContentCopyIcon />
+        </IconButton>
+            </div>
+            <div style={{display:"flex", alignItems:"center",gap:"6px"}}>
+              <h4>password:</h4> <h3 >test</h3>  
+              <IconButton onClick={() => copyToClipboard('test')}>
+          <ContentCopyIcon />
+        </IconButton>
+            </div>
           </DemoAc>
         </div>
       </Welcome>
